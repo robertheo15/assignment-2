@@ -1,4 +1,102 @@
 basePath: /
+definitions:
+  controllers.ItemResponse:
+    properties:
+      data:
+        $ref: '#/definitions/models.Item'
+      success:
+        type: boolean
+    type: object
+  controllers.ItemsResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/models.Item'
+        type: array
+      query:
+        additionalProperties: true
+        type: object
+      success:
+        type: boolean
+    type: object
+  controllers.OrderResponse:
+    properties:
+      data:
+        $ref: '#/definitions/models.Order'
+      success:
+        type: boolean
+    type: object
+  controllers.OrdersResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/models.Order'
+        type: array
+      query:
+        additionalProperties: true
+        type: object
+      success:
+        type: boolean
+    type: object
+  models.Item:
+    properties:
+      created_at:
+        example: "2022-11-11T21:21:46+00:00"
+        type: string
+      deleted_at:
+        example: "2022-11-11T21:21:46+00:00"
+        type: string
+      description:
+        example: Ini adalah deskripsi
+        type: string
+      id:
+        example: 1
+        type: integer
+      item_code:
+        example: "1"
+        type: string
+      order_id:
+        example: 1
+        type: integer
+      quantity:
+        example: 1
+        type: integer
+      updated_at:
+        example: "2022-11-11T21:21:46+00:00"
+        type: string
+    required:
+    - description
+    - item_code
+    - quantity
+    type: object
+  models.Order:
+    properties:
+      created_at:
+        example: "2022-11-11T21:21:46+00:00"
+        type: string
+      customer_name:
+        example: Robert
+        type: string
+      deleted_at:
+        example: "2022-11-11T21:21:46+00:00"
+        type: string
+      id:
+        example: 1
+        type: integer
+      items:
+        items:
+          $ref: '#/definitions/models.Item'
+        type: array
+      ordered_at:
+        example: "2022-11-11T21:21:46+00:00"
+        type: string
+      updated_at:
+        example: "2022-11-11T21:21:46+00:00"
+        type: string
+    required:
+    - customer_name
+    - items
+    type: object
 host: localhost:8080
 info:
   contact:
@@ -12,5 +110,166 @@ info:
     url: https://opensource.org/licenses/MIT
   title: Go + Gin Todo API
   version: "1.0"
-paths: {}
+paths:
+  /items:
+    get:
+      consumes:
+      - application/json
+      description: get items
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.ItemsResponse'
+      summary: get all items
+      tags:
+      - items
+  /items/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete item by id
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: delete item by id
+      tags:
+      - items
+    get:
+      consumes:
+      - application/json
+      description: get item by id
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.ItemResponse'
+      summary: get item by id
+      tags:
+      - items
+    put:
+      consumes:
+      - application/json
+      description: update item by id
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: update item by id
+      tags:
+      - items
+  /orders/:
+    get:
+      consumes:
+      - application/json
+      description: get orders
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.OrdersResponse'
+      summary: get orders
+      tags:
+      - items
+  /orders/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete order by id
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: delete order by id
+      tags:
+      - items
+    get:
+      consumes:
+      - application/json
+      description: get order by id
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.OrderResponse'
+      summary: get order by id
+      tags:
+      - items
+    post:
+      consumes:
+      - application/json
+      description: create orders
+      parameters:
+      - description: Create Order
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/models.Order'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.OrderResponse'
+      summary: create order
+      tags:
+      - items
+    put:
+      consumes:
+      - application/json
+      description: update order by id
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.OrderResponse'
+      summary: update order by id
+      tags:
+      - items
 swagger: "2.0"

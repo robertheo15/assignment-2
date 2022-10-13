@@ -1,6 +1,7 @@
 package main
 
 import (
+	_ "assignment-2/docs"
 	"assignment-2/router"
 )
 

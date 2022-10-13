@@ -16,5 +16,388 @@
     },
     "host": "localhost:8080",
     "basePath": "/",
-    "paths": {}
+    "paths": {
+        "/items": {
+            "get": {
+                "description": "get items",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "items"
+                ],
+                "summary": "get all items",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ItemsResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/items/{id}": {
+            "get": {
+                "description": "get item by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "items"
+                ],
+                "summary": "get item by id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ItemResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "update item by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "items"
+                ],
+                "summary": "update item by id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            },
+            "delete": {
+                "description": "delete item by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "items"
+                ],
+                "summary": "delete item by id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/orders/": {
+            "get": {
+                "description": "get orders",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "items"
+                ],
+                "summary": "get orders",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.OrdersResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/orders/{id}": {
+            "get": {
+                "description": "get order by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "items"
+                ],
+                "summary": "get order by id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.OrderResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "update order by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "items"
+                ],
+                "summary": "update order by id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.OrderResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "create orders",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "items"
+                ],
+                "summary": "create order",
+                "parameters": [
+                    {
+                        "description": "Create Order",
+                        "name": "order",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Order"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.OrderResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "delete order by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "items"
+                ],
+                "summary": "delete order by id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        }
+    },
+    "definitions": {
+        "controllers.ItemResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/models.Item"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "controllers.ItemsResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Item"
+                    }
+                },
+                "query": {
+                    "type": "object",
+                    "additionalProperties": true
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "controllers.OrderResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/models.Order"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "controllers.OrdersResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Order"
+                    }
+                },
+                "query": {
+                    "type": "object",
+                    "additionalProperties": true
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "models.Item": {
+            "type": "object",
+            "required": [
+                "description",
+                "item_code",
+                "quantity"
+            ],
+            "properties": {
+                "created_at": {
+                    "type": "string",
+                    "example": "2022-11-11T21:21:46+00:00"
+                },
+                "deleted_at": {
+                    "type": "string",
+                    "example": "2022-11-11T21:21:46+00:00"
+                },
+                "description": {
+                    "type": "string",
+                    "example": "Ini adalah deskripsi"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "item_code": {
+                    "type": "string",
+                    "example": "1"
+                },
+                "order_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "quantity": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "updated_at": {
+                    "type": "string",
+                    "example": "2022-11-11T21:21:46+00:00"
+                }
+            }
+        },
+        "models.Order": {
+            "type": "object",
+            "required": [
+                "customer_name",
+                "items"
+            ],
+            "properties": {
+                "created_at": {
+                    "type": "string",
+                    "example": "2022-11-11T21:21:46+00:00"
+                },
+                "customer_name": {
+                    "type": "string",
+                    "example": "Robert"
+                },
+                "deleted_at": {
+                    "type": "string",
+                    "example": "2022-11-11T21:21:46+00:00"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Item"
+                    }
+                },
+                "ordered_at": {
+                    "type": "string",
+                    "example": "2022-11-11T21:21:46+00:00"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "example": "2022-11-11T21:21:46+00:00"
+                }
+            }
+        }
+    }
 }

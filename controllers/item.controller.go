@@ -20,6 +20,25 @@ func NewItemController(db *gorm.DB) *ItemController {
 	}
 }
 
+type ItemResponse struct {
+	Success bool        `json:"success"`
+	Data    models.Item `json:"data"`
+}
+
+type ItemsResponse struct {
+	Success bool                   `json:"success"`
+	Data    []models.Item          `json:"data"`
+	Query   map[string]interface{} `json:"query"`
+}
+
+// FindItems godoc
+// @Summary get all items
+// @Description get items
+// @Tags items
+// @Accept json
+// @Produce json
+// @Success 200 {object} ItemsResponse
+// @Router /items [get]
 func (controller *ItemController) FindItems(ctx *gin.Context) {
 	limit := ctx.Query("limit")
 	limitInt := 10
@@ -40,16 +59,25 @@ func (controller *ItemController) FindItems(ctx *gin.Context) {
 		return
 	}
 
-	helpers.WriteJsonResponse(ctx, http.StatusOK, gin.H{
-		"success": true,
-		"data":    items,
-		"query": map[string]interface{}{
+	helpers.WriteJsonResponse(ctx, http.StatusOK, ItemsResponse{
+		Success: true,
+		Data:    items,
+		Query: map[string]interface{}{
 			"limit": limitInt,
 			"total": total,
 		},
 	})
 }
 
+// FindItemById godoc
+// @Summary get item by id
+// @Description get item by id
+// @Tags items
+// @Accept json
+// @Produce json
+// @Param 		id path string true "id"
+// @Success 200 {object} ItemResponse
+// @Router /items/{id} [get]
 func (controller *ItemController) FindItemById(ctx *gin.Context) {
 	id := ctx.Param("id")
 	var item models.Item
@@ -57,19 +85,27 @@ func (controller *ItemController) FindItemById(ctx *gin.Context) {
 	err := controller.db.Debug().Where("id = ?", id).First(&item).Error
 	if err != nil {
 		if err.Error() == gorm.ErrRecordNotFound.Error() {
-			helpers.NotFoundResponse(ctx, "Order data not found")
+			helpers.NotFoundResponse(ctx, "Item data not found")
 			return
 		}
 		helpers.BadRequestResponse(ctx, err.Error())
 		return
 	}
 
-	helpers.WriteJsonResponse(ctx, http.StatusOK, gin.H{
-		"success": true,
-		"data":    item,
+	helpers.WriteJsonResponse(ctx, http.StatusOK, ItemResponse{
+		Success: true,
+		Data:    item,
 	})
 }
 
+// UpdateItem godoc
+// @Summary update item by id
+// @Description update item by id
+// @Tags items
+// @Accept json
+// @Produce json
+// @Param 		id path string true "id"
+// @Router /items/{id} [put]
 func (controller *ItemController) UpdateItem(ctx *gin.Context) {
 	id := ctx.Param("id")
 	var newItem models.Item
@@ -83,7 +119,7 @@ func (controller *ItemController) UpdateItem(ctx *gin.Context) {
 	err = controller.db.First(&newItem, id).Error
 	if err != nil {
 		if err.Error() == gorm.ErrRecordNotFound.Error() {
-			helpers.NotFoundResponse(ctx, "Order data not found")
+			helpers.NotFoundResponse(ctx, "Item data not found")
 			return
 		}
 		helpers.BadRequestResponse(ctx, err.Error())
@@ -106,6 +142,14 @@ func (controller *ItemController) UpdateItem(ctx *gin.Context) {
 	})
 }
 
+// DeleteItem godoc
+// @Summary delete item by id
+// @Description delete item by id
+// @Tags items
+// @Accept json
+// @Produce json
+// @Param 		id path string true "id"
+// @Router /items/{id} [delete]
 func (controller *ItemController) DeleteItem(ctx *gin.Context) {
 	id := ctx.Param("id")
 	var item models.Item
